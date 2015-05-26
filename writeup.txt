@@ -1,0 +1,6 @@
+Group Members: Nick Brown, Mark Nguyen, Alex Smith, Zhansaya Abdikarimova
+
+Project Proposal: Assassin
+
+Problem / Application Idea / Overall Project Goal:
+When people get bored, they typically remain inactive on their smartphones playing games like Angry Birds or Candy Crush. We hope to motivate users to engage in a game that goes beyond their phone screens. Our application is going to be an augmented reality game in which the players chase/tag each other in the real world. The app will guide them and provide information about their environment and what their goals are. We will leverage location-awareness and inter-device communication to make the game work. 
