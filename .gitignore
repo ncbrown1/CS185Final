@@ -8,3 +8,5 @@
 /build
 /out
 /captures
+CS185Final/app/src/debug/res/values/google_maps_api.xml
+CS185Final/app/src/release/res/values/google_maps_api.xml
