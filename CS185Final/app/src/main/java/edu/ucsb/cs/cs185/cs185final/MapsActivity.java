@@ -10,7 +10,6 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MapsActivity extends FragmentActivity {
 
@@ -71,9 +70,7 @@ public class MapsActivity extends FragmentActivity {
         LatLng latlng = new LatLng(location.getLatitude(), location.getLongitude());
         mMap.setMyLocationEnabled(true);
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latlng, 13));
-        mMap.addMarker(new MarkerOptions()
-                .title("UCSB")
-                .snippet("The most populous city in Australia.")
-                .position(latlng));
+        new PersonMarkerLoader(this, new Person(latlng), mMap).execute();
     }
+
 }
