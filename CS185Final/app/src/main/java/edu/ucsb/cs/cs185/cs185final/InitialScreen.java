@@ -16,6 +16,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 
@@ -27,9 +28,6 @@ public class InitialScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_initial_screen);
-
-        //initialMap bg = new initialMap();
-        //bg.setUpMapIfNeeded();
 
         Button newGame = (Button) findViewById(R.id.button);
         Button joinGame = (Button) findViewById(R.id.button2);
@@ -144,11 +142,19 @@ class initialMap extends FragmentActivity {
         String locationProvider = locationManager.getBestProvider(criteria, false);
         Location location = locationManager.getLastKnownLocation(locationProvider);
         LatLng latlng = new LatLng(location.getLatitude(), location.getLongitude());
+        LatLng latlng_ = new LatLng(location.getLatitude() + 150, location.getLongitude() + 150);
         mMap.setMyLocationEnabled(true);
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latlng, 13));
-        mMap.addMarker(new MarkerOptions()
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng, 13));
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latlng_, 20), 16000, new GoogleMap.CancelableCallback() {
+            @Override
+            public void onFinish() { }
+            @Override
+            public void onCancel() { }
+        });
+        Marker ucsb = mMap.addMarker(new MarkerOptions()
                 .title("UCSB")
                 .snippet("The most populous city in USSR.")
                 .position(latlng));
+        ucsb.showInfoWindow();
     }
 }

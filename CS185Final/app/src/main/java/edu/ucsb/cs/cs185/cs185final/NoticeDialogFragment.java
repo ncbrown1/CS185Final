@@ -57,10 +57,10 @@ public class NoticeDialogFragment extends DialogFragment implements TimePickerDi
         // Do something with the date chosen by the user
         TextView x = (TextView)getActivity().findViewById(R.id.textView);
         if(minute < 10){
-            x.setText(hour + ":" + 0 + minute);
+            x.setText("Game will end at " + hour + ":" + 0 + minute + ".");
         }
         else {
-            x.setText(hour + ":" + minute);
+            x.setText("Game will end at " + hour + ":" + minute + ".");
         }
     }
 
