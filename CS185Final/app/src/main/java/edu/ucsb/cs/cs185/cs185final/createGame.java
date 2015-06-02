@@ -1,17 +1,36 @@
 package edu.ucsb.cs.cs185.cs185final;
 
+import android.app.DialogFragment;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
 
-public class createGame extends ActionBarActivity {
+public class createGame extends ActionBarActivity implements NoticeDialogFragment.NoticeDialogListener{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_game);
+
+        Button Button1 = (Button)findViewById(R.id.button5);
+        Button1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    // Create an instance of the dialog fragment
+                    DialogFragment newDialog = new NoticeDialogFragment();
+                    // Show dialog
+                    newDialog.show(getFragmentManager(), "this");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     @Override
@@ -34,5 +53,17 @@ public class createGame extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onDialogPositiveClick(DialogFragment dialog) {
+        // User touched the dialog's positive button
+        dialog.dismiss();
+
+    }
+    @Override
+    public void onDialogNegativeClick(DialogFragment dialog) {
+        // User touched the dialog's negative button
+        dialog.dismiss();
     }
 }

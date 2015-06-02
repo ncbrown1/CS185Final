@@ -7,4 +7,16 @@
     <string name="title_activity_maps">Map</string>
     <string name="title_activity_initial_screen">InitialScreen</string>
     <string name="title_activity_create_game">createGame</string>
+    <color name="white">#FFFFFF</color>
+    <color name="dark_grey">#424242</color>
+    <color name="deep_red">#B71C1C</color>
+    <color name="dark_red">#842222</color>
+    <color name="light_grey">#BDBDBD</color>
+    <color name="black">#000000</color>
+    <color name="dark_grey_trans">#DA424242</color>
+
+
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
