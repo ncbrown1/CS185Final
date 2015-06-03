@@ -104,7 +104,12 @@ public class createGame extends ActionBarActivity implements NoticeDialogFragmen
         Criteria criteria = new Criteria();
         String locationProvider = locationManager.getBestProvider(criteria, false);
         Location location = locationManager.getLastKnownLocation(locationProvider);
-        LatLng latlng = new LatLng(location.getLatitude(), location.getLongitude());
+//        LatLng latlng = new LatLng(location.getLatitude(), location.getLongitude());
+        LatLng latlng;
+        if(location != null){
+            latlng = new LatLng(location.getLatitude(), location.getLongitude());
+        }
+        else latlng = new LatLng(0,0);
         mMap.setMyLocationEnabled(true);
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latlng, 13));
         mMap.addMarker(new MarkerOptions()
@@ -149,7 +154,12 @@ class createMap extends FragmentActivity {
         Criteria criteria = new Criteria();
         String locationProvider = locationManager.getBestProvider(criteria, false);
         Location location = locationManager.getLastKnownLocation(locationProvider);
-        LatLng latlng = new LatLng(location.getLatitude(), location.getLongitude());
+//        LatLng latlng = new LatLng(location.getLatitude(), location.getLongitude());
+        LatLng latlng;
+        if(location != null){
+            latlng = new LatLng(location.getLatitude(), location.getLongitude());
+        }
+        else latlng = new LatLng(0,0);
         mMap.setMyLocationEnabled(true);
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latlng, 13));
         Marker mark = mMap.addMarker(new MarkerOptions()
