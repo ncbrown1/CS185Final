@@ -1,5 +1,6 @@
 package edu.ucsb.cs.cs185.cs185final;
 
+import android.content.res.AssetManager;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
@@ -9,8 +10,18 @@ import android.support.v4.app.FragmentActivity;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
 
 public class MapsActivity extends FragmentActivity {
 
@@ -21,6 +32,7 @@ public class MapsActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
         setUpMapIfNeeded();
+        readPlayersInfo();
     }
 
     @Override
@@ -66,7 +78,7 @@ public class MapsActivity extends FragmentActivity {
     private void setUpMap() {
         LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         Criteria criteria = new Criteria();
-        String locationProvider = locationManager.getBestProvider(criteria, false);
+        String locationProvider = locationManager.getBestProvider(criteria, true);
         Location location = locationManager.getLastKnownLocation(locationProvider);
         LatLng latlng;
         if(location != null){
@@ -80,5 +92,57 @@ public class MapsActivity extends FragmentActivity {
                 .title("UCSB")
                 .snippet("The most populous city in Australia.")
                 .position(latlng));
+        
+    }
+
+    private void readPlayersInfo(){
+
+        try {
+            AssetManager am = this.getAssets();
+            InputStream is = am.open("PlayersList.txt");
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(is));
+
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                //System.out.println(line);
+
+                StringTokenizer token = new StringTokenizer(line);
+                double lat = Double.parseDouble(""+token.nextElement());
+                double lon = Double.parseDouble(""+token.nextElement());
+                int teamIndex = Integer.parseInt("" + token.nextElement());
+
+                //System.out.println("Reading "+lat +" "+lon+" "+teamIndex);
+                addPlayerToMap(lat,lon,teamIndex);
+
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void addPlayerToMap(double lat, double lon, int teamIndex){
+        BitmapDescriptor markerColor = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE);
+
+        switch (teamIndex){
+            case 1:
+                markerColor = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE);
+                break;
+            case 2:
+                markerColor = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN);
+                break;
+            case 3:
+                markerColor = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED);
+                break;
+            case 4:
+                markerColor = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW);
+                break;
+            case 5:
+                markerColor = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE);
+                break;
+
+        }
+        mMap.addMarker(new MarkerOptions()
+                .icon(markerColor)
+                .position(new LatLng(lat, lon)));
     }
 }
