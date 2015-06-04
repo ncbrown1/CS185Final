@@ -23,6 +23,8 @@
             android:digits="0,1,2,3,4,5,6,7,8,9"
             android:hint="Max number of players:"
             android:inputType="number"
+            android:singleLine="true"
+            android:imeOptions="actionNext"
             />
 
         <EditText
@@ -33,7 +35,9 @@
             android:layout_marginRight="16dp"
             android:digits="0,1,2,3,4,5,6,7,8,9"
             android:hint="Max score:"
-            android:inputType="number" />
+            android:inputType="number"
+            android:singleLine="true"
+            android:imeOptions="actionNext"/>
 
         <EditText
             android:id="@+id/num_lives"
