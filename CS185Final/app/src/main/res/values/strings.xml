@@ -6,7 +6,7 @@
     <string name="title_activity_start_game_form">StartGameForm</string>
     <string name="title_activity_maps">Map</string>
     <string name="title_activity_initial_screen">InitialScreen</string>
-    <string name="title_activity_create_game">createGame</string>
+    <string name="title_activity_create_game">Create a Game</string>
     <color name="white">#FFFFFF</color>
     <color name="dark_grey">#424242</color>
     <color name="deep_red">#B71C1C</color>
