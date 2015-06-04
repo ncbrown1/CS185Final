@@ -104,14 +104,12 @@ public class MapsActivity extends FragmentActivity {
 
             String line;
             while ((line = bufferedReader.readLine()) != null) {
-                //System.out.println(line);
 
                 StringTokenizer token = new StringTokenizer(line);
                 double lat = Double.parseDouble(""+token.nextElement());
                 double lon = Double.parseDouble(""+token.nextElement());
                 int teamIndex = Integer.parseInt("" + token.nextElement());
 
-                //System.out.println("Reading "+lat +" "+lon+" "+teamIndex);
                 addPlayerToMap(lat,lon,teamIndex);
 
             }
