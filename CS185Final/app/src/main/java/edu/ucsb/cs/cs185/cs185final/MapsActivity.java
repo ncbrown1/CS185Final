@@ -6,6 +6,8 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.view.View;
+import android.widget.Button;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -13,24 +15,30 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.StringTokenizer;
 
 public class MapsActivity extends FragmentActivity {
 
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
+    private Button mButton;
+    private final Map<String, Integer> map = new HashMap<>();
+    private final ArrayList<Marker> markers = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+        mButton = (Button) findViewById(R.id.joinGameButton2);
         setUpMapIfNeeded();
         readPlayersInfo();
     }
@@ -88,11 +96,31 @@ public class MapsActivity extends FragmentActivity {
 
         mMap.setMyLocationEnabled(true);
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latlng, 13));
-        mMap.addMarker(new MarkerOptions()
-                .title("UCSB")
-                .snippet("The most populous city in Australia.")
-                .position(latlng));
-        
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker clicked) {
+                int team = map.get(clicked.getId());
+
+                for (Marker marker : markers) {
+                    if (map.get(marker.getId()) == team) marker.setAlpha(1);
+                    else marker.setAlpha(0.2f);
+                }
+
+                mButton.setVisibility(View.VISIBLE);
+
+                return true;
+            }
+        });
+        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(LatLng latLng) {
+                for (Marker marker : markers) {
+                    marker.setAlpha(0.2f);
+                }
+
+                mButton.setVisibility(View.GONE);
+            }
+        });
     }
 
     private void readPlayersInfo(){
@@ -139,8 +167,13 @@ public class MapsActivity extends FragmentActivity {
                 break;
 
         }
-        mMap.addMarker(new MarkerOptions()
+        Marker marker = mMap.addMarker(new MarkerOptions()
                 .icon(markerColor)
                 .position(new LatLng(lat, lon)));
+
+        marker.setAlpha(0.2f);
+        String id = marker.getId();
+        map.put(id, teamIndex);
+        markers.add(marker);
     }
 }
