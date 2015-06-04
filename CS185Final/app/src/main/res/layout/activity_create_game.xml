@@ -51,7 +51,7 @@
 
 
         <Button
-            android:id="@+id/button6"
+            android:id="@+id/createGameButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
@@ -114,7 +114,7 @@
             android:layout_marginRight="36dp">
 
             <Button
-                android:id="@+id/button5"
+                android:id="@+id/timePickerButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical|left"

@@ -23,14 +23,23 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 public class createGame extends ActionBarActivity implements NoticeDialogFragment.NoticeDialogListener{
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
+    private Button createGameButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_game);
 
-        Button Button1 = (Button)findViewById(R.id.button5);
-        Button1.setOnClickListener(new View.OnClickListener() {
+        createGameButton = (Button) findViewById(R.id.createGameButton);
+        createGameButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // STUB
+            }
+        });
+
+        Button timePickerButton = (Button)findViewById(R.id.timePickerButton);
+        timePickerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try {

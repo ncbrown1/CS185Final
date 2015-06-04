@@ -24,8 +24,8 @@ public class InitialScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_initial_screen);
 
-        Button newGame = (Button) findViewById(R.id.button);
-        Button joinGame = (Button) findViewById(R.id.button2);
+        Button newGame = (Button) findViewById(R.id.newGameButton);
+        Button joinGame = (Button) findViewById(R.id.joinGameButton);
 
         newGame.setOnClickListener(new View.OnClickListener() {
             @Override
