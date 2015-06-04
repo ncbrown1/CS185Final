@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -19,7 +20,6 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.gson.Gson;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -27,7 +27,6 @@ import java.io.Reader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.StringTokenizer;
 
 import edu.ucsb.cs.cs185.cs185final.models.Data;
 import edu.ucsb.cs.cs185.cs185final.models.Game;
@@ -37,14 +36,18 @@ public class MapsActivity extends FragmentActivity {
 
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
     private Button mButton;
+    private View gameDetails;
     private final Map<String, Integer> map = new HashMap<>();
     private final ArrayList<Marker> markers = new ArrayList<>();
+
+    private Data data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
         mButton = (Button) findViewById(R.id.joinGameButton2);
+        gameDetails = findViewById(R.id.game_details);
         setUpMapIfNeeded();
         readPlayersInfo();
     }
@@ -112,7 +115,10 @@ public class MapsActivity extends FragmentActivity {
                     else marker.setAlpha(0.2f);
                 }
 
-                mButton.setVisibility(View.VISIBLE);
+                Game game = data.games.get(team - 1);
+                TextView name = (TextView) gameDetails.findViewById(R.id.game_name);
+                name.setText(game.title);
+                gameDetails.setVisibility(View.VISIBLE);
 
                 return true;
             }
@@ -124,7 +130,7 @@ public class MapsActivity extends FragmentActivity {
                     marker.setAlpha(0.2f);
                 }
 
-                mButton.setVisibility(View.GONE);
+                gameDetails.setVisibility(View.GONE);
             }
         });
     }
@@ -135,7 +141,7 @@ public class MapsActivity extends FragmentActivity {
             AssetManager am = this.getAssets();
             InputStream is = am.open("PlayersList.txt");
             Reader reader = new InputStreamReader(is);
-            Data data = new Gson().fromJson(reader, Data.class);
+            data = new Gson().fromJson(reader, Data.class);
             for (Player player : data.players) {
                 addPlayerToMap(player.longitude, player.latitude, player.game);
             }
