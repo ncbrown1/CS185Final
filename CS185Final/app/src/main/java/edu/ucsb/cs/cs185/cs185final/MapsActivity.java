@@ -6,6 +6,8 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.view.View;
+import android.widget.Button;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -28,6 +30,7 @@ import java.util.StringTokenizer;
 public class MapsActivity extends FragmentActivity {
 
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
+    private Button mButton;
     private final Map<String, Integer> map = new HashMap<>();
     private final ArrayList<Marker> markers = new ArrayList<>();
 
@@ -35,6 +38,7 @@ public class MapsActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+        mButton = (Button) findViewById(R.id.joinGameButton2);
         setUpMapIfNeeded();
         readPlayersInfo();
     }
@@ -92,11 +96,6 @@ public class MapsActivity extends FragmentActivity {
 
         mMap.setMyLocationEnabled(true);
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latlng, 13));
-        mMap.addMarker(new MarkerOptions()
-                .title("UCSB")
-                .snippet("The most populous city in Australia.")
-                .position(latlng));
-
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker clicked) {
@@ -107,7 +106,19 @@ public class MapsActivity extends FragmentActivity {
                     else marker.setAlpha(0.2f);
                 }
 
+                mButton.setVisibility(View.VISIBLE);
+
                 return true;
+            }
+        });
+        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(LatLng latLng) {
+                for (Marker marker : markers) {
+                    marker.setAlpha(0.2f);
+                }
+
+                mButton.setVisibility(View.GONE);
             }
         });
     }
