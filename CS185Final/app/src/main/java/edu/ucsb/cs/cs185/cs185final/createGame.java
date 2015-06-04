@@ -1,35 +1,29 @@
 package edu.ucsb.cs.cs185.cs185final;
 
 import android.app.DialogFragment;
-import android.location.Criteria;
-import android.location.Location;
-import android.location.LocationManager;
-import android.support.v4.app.FragmentActivity;
+import android.content.Context;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
-
+import android.widget.EditText;
 
 public class createGame extends ActionBarActivity implements NoticeDialogFragment.NoticeDialogListener{
-    private GoogleMap mMap; // Might be null if Google Play services APK is not available.
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_game);
 
-        Button Button1 = (Button)findViewById(R.id.button5);
+        EditText myEditText = (EditText) findViewById(R.id.max_participants);
+
+        ((InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE))
+                .showSoftInput(myEditText, InputMethodManager.SHOW_FORCED);
+
+        Button Button1 = (Button)findViewById(R.id.time_picker);
         Button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -43,7 +37,6 @@ public class createGame extends ActionBarActivity implements NoticeDialogFragmen
                 }
             }
         });
-        setUpMapIfNeeded();
     }
 
     @Override
@@ -78,43 +71,6 @@ public class createGame extends ActionBarActivity implements NoticeDialogFragmen
     public void onDialogNegativeClick(DialogFragment dialog) {
         // User touched the dialog's negative button
         dialog.dismiss();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        setUpMapIfNeeded();
-    }
-
-    void setUpMapIfNeeded() {
-        // Do a null check to confirm that we have not already instantiated the map.
-        if (mMap == null) {
-            // Try to obtain the map from the SupportMapFragment.
-            mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map))
-                    .getMap();
-            // Check if we were successful in obtaining the map.
-            if (mMap != null) {
-                setUpMap();
-            }
-        }
-    }
-
-    private void setUpMap() {
-        LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-        Criteria criteria = new Criteria();
-        String locationProvider = locationManager.getBestProvider(criteria, false);
-        Location location = locationManager.getLastKnownLocation(locationProvider);
-        LatLng latlng;
-        if(location != null){
-            latlng = new LatLng(location.getLatitude(), location.getLongitude());
-        }
-        else latlng = new LatLng(0,0);
-        mMap.setMyLocationEnabled(true);
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latlng, 13));
-        mMap.addMarker(new MarkerOptions()
-                .title("UCSB")
-                .snippet("The most populous city in USSR.")
-                .position(latlng));
     }
 }
 
