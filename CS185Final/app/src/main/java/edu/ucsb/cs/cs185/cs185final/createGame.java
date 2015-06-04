@@ -1,6 +1,7 @@
 package edu.ucsb.cs.cs185.cs185final;
 
 import android.app.DialogFragment;
+import android.content.Intent;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
@@ -34,7 +35,8 @@ public class createGame extends ActionBarActivity implements NoticeDialogFragmen
         createGameButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // STUB
+                Intent createGame = new Intent(getApplicationContext(), GameActivity.class);
+                startActivity(createGame);
             }
         });
 
