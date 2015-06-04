@@ -17,15 +17,21 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.gson.Gson;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.StringTokenizer;
+
+import edu.ucsb.cs.cs185.cs185final.models.Data;
+import edu.ucsb.cs.cs185.cs185final.models.Game;
+import edu.ucsb.cs.cs185.cs185final.models.Player;
 
 public class MapsActivity extends FragmentActivity {
 
@@ -128,18 +134,10 @@ public class MapsActivity extends FragmentActivity {
         try {
             AssetManager am = this.getAssets();
             InputStream is = am.open("PlayersList.txt");
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(is));
-
-            String line;
-            while ((line = bufferedReader.readLine()) != null) {
-
-                StringTokenizer token = new StringTokenizer(line);
-                double lat = Double.parseDouble(""+token.nextElement());
-                double lon = Double.parseDouble(""+token.nextElement());
-                int teamIndex = Integer.parseInt("" + token.nextElement());
-
-                addPlayerToMap(lat,lon,teamIndex);
-
+            Reader reader = new InputStreamReader(is);
+            Data data = new Gson().fromJson(reader, Data.class);
+            for (Player player : data.players) {
+                addPlayerToMap(player.longitude, player.latitude, player.game);
             }
         } catch (IOException e) {
             e.printStackTrace();
