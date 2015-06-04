@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,8 +21,8 @@ public class createGame extends ActionBarActivity implements NoticeDialogFragmen
 
         EditText myEditText = (EditText) findViewById(R.id.max_participants);
 
-        ((InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE))
-                .showSoftInput(myEditText, InputMethodManager.SHOW_FORCED);
+        myEditText.requestFocus();
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
 
         Button Button1 = (Button)findViewById(R.id.time_picker);
         Button1.setOnClickListener(new View.OnClickListener() {
