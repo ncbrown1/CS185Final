@@ -96,7 +96,6 @@ public class InitialScreen extends AppCompatActivity {
         Criteria criteria = new Criteria();
         String locationProvider = locationManager.getBestProvider(criteria, false);
         Location location = locationManager.getLastKnownLocation(locationProvider);
-//        LatLng latlng = new LatLng(location.getLatitude(), location.getLongitude());
         LatLng latlng;
         if(location != null){
             latlng = new LatLng(location.getLatitude(), location.getLongitude());
