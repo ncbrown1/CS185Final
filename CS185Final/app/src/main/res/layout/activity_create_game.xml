@@ -5,6 +5,7 @@
     android:background="@color/dark_grey"
     tools:context="edu.ucsb.cs.cs185.cs185final.InitialScreen">
 
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -58,7 +59,7 @@
             android:layout_marginRight="16dp">
 
             <Button
-                android:id="@+id/time_picker"
+                android:id="@+id/timePickerButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical|left"

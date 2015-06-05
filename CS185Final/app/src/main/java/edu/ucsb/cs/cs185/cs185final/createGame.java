@@ -1,18 +1,20 @@
 package edu.ucsb.cs.cs185.cs185final;
 
 import android.app.DialogFragment;
-import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.google.android.gms.maps.GoogleMap;
+
 public class createGame extends ActionBarActivity implements NoticeDialogFragment.NoticeDialogListener{
+    private GoogleMap mMap; // Might be null if Google Play services APK is not available.
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,8 +26,8 @@ public class createGame extends ActionBarActivity implements NoticeDialogFragmen
         myEditText.requestFocus();
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
 
-        Button Button1 = (Button)findViewById(R.id.time_picker);
-        Button1.setOnClickListener(new View.OnClickListener() {
+        Button timePickerButton = (Button)findViewById(R.id.timePickerButton);
+        timePickerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try {
@@ -55,7 +57,9 @@ public class createGame extends ActionBarActivity implements NoticeDialogFragmen
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.createGame) {
+            Intent createGame = new Intent(getApplicationContext(), GameActivity.class);
+            startActivity(createGame);
             return true;
         }
 

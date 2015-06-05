@@ -8,37 +8,48 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.gson.Gson;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.StringTokenizer;
+
+import edu.ucsb.cs.cs185.cs185final.models.Data;
+import edu.ucsb.cs.cs185.cs185final.models.Game;
+import edu.ucsb.cs.cs185.cs185final.models.Player;
 
 public class MapsActivity extends FragmentActivity {
 
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
     private Button mButton;
+    private View gameDetails;
     private final Map<String, Integer> map = new HashMap<>();
     private final ArrayList<Marker> markers = new ArrayList<>();
+
+    private Data data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
         mButton = (Button) findViewById(R.id.joinGameButton2);
+        gameDetails = findViewById(R.id.game_details);
         setUpMapIfNeeded();
         readPlayersInfo();
     }
@@ -101,12 +112,23 @@ public class MapsActivity extends FragmentActivity {
             public boolean onMarkerClick(Marker clicked) {
                 int team = map.get(clicked.getId());
 
+                LatLngBounds.Builder builder = new LatLngBounds.Builder();
                 for (Marker marker : markers) {
-                    if (map.get(marker.getId()) == team) marker.setAlpha(1);
+                    if (map.get(marker.getId()) == team) {
+                        marker.setAlpha(1);
+                        LatLng position = marker.getPosition();
+                        builder.include(position);
+                    }
                     else marker.setAlpha(0.2f);
                 }
 
-                mButton.setVisibility(View.VISIBLE);
+                Game game = data.games.get(team - 1);
+                TextView name = (TextView) gameDetails.findViewById(R.id.game_name);
+                name.setText(game.title);
+                gameDetails.setVisibility(View.VISIBLE);
+
+                CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngBounds(builder.build(), 64);
+                mMap.animateCamera(cameraUpdate);
 
                 return true;
             }
@@ -118,7 +140,7 @@ public class MapsActivity extends FragmentActivity {
                     marker.setAlpha(0.2f);
                 }
 
-                mButton.setVisibility(View.GONE);
+                gameDetails.setVisibility(View.GONE);
             }
         });
     }
@@ -128,18 +150,10 @@ public class MapsActivity extends FragmentActivity {
         try {
             AssetManager am = this.getAssets();
             InputStream is = am.open("PlayersList.txt");
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(is));
-
-            String line;
-            while ((line = bufferedReader.readLine()) != null) {
-
-                StringTokenizer token = new StringTokenizer(line);
-                double lat = Double.parseDouble(""+token.nextElement());
-                double lon = Double.parseDouble(""+token.nextElement());
-                int teamIndex = Integer.parseInt("" + token.nextElement());
-
-                addPlayerToMap(lat,lon,teamIndex);
-
+            Reader reader = new InputStreamReader(is);
+            data = new Gson().fromJson(reader, Data.class);
+            for (Player player : data.players) {
+                addPlayerToMap(player.longitude, player.latitude, player.game);
             }
         } catch (IOException e) {
             e.printStackTrace();
