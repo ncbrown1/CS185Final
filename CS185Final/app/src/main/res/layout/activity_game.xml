@@ -1,0 +1,16 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="edu.ucsb.cs.cs185.cs185final.InitialScreen"
+    android:id="@+id/gameLayout">
+
+    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/myMap"
+        tools:context="edu.ucsb.cs.cs185.cs185final.GameActivity"
+        android:name="com.google.android.gms.maps.SupportMapFragment" />
+</RelativeLayout>
+
