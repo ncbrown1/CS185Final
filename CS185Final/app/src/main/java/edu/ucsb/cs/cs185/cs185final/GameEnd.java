@@ -21,9 +21,7 @@ public class GameEnd extends Activity {
 
         final VideoView videoView =
                 (VideoView) findViewById(R.id.videoView);
-
-//        videoView.setVideoPath(
-//                "https://www.youtube.com/watch?v=YDzesiC0b7g");
+        
         Uri videoPath = Uri.parse("android.resource://" + getPackageName() + "/"
                 + R.raw.blood);
         videoView.setVideoURI(videoPath);
