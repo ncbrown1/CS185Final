@@ -112,23 +112,7 @@ public class MapsActivity extends FragmentActivity {
             public boolean onMarkerClick(Marker clicked) {
                 int team = map.get(clicked.getId());
 
-                LatLngBounds.Builder builder = new LatLngBounds.Builder();
-                for (Marker marker : markers) {
-                    if (map.get(marker.getId()) == team) {
-                        marker.setAlpha(1);
-                        LatLng position = marker.getPosition();
-                        builder.include(position);
-                    }
-                    else marker.setAlpha(0.2f);
-                }
-
-                Game game = data.games.get(team - 1);
-                TextView name = (TextView) gameDetails.findViewById(R.id.game_name);
-                name.setText(game.title);
-                gameDetails.setVisibility(View.VISIBLE);
-
-                CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngBounds(builder.build(), 64);
-                mMap.animateCamera(cameraUpdate);
+                setSelectedTeam(team);
 
                 return true;
             }
@@ -143,6 +127,26 @@ public class MapsActivity extends FragmentActivity {
                 gameDetails.setVisibility(View.GONE);
             }
         });
+    }
+
+    private void setSelectedTeam(int team) {
+        LatLngBounds.Builder builder = new LatLngBounds.Builder();
+        for (Marker marker : markers) {
+            if (map.get(marker.getId()) == team) {
+                marker.setAlpha(1);
+                LatLng position = marker.getPosition();
+                builder.include(position);
+            }
+            else marker.setAlpha(0.2f);
+        }
+
+        Game game = data.games.get(team - 1);
+        TextView name = (TextView) gameDetails.findViewById(R.id.game_name);
+        name.setText(game.title);
+        gameDetails.setVisibility(View.VISIBLE);
+
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngBounds(builder.build(), 64);
+        mMap.animateCamera(cameraUpdate);
     }
 
     private void readPlayersInfo(){
