@@ -1,22 +1,14 @@
 package edu.ucsb.cs.cs185.cs185final;
 
 import android.app.Activity;
-import android.net.Uri;
-import android.os.Bundle;
-import android.app.Fragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
+import android.app.Dialog;
 import android.app.DialogFragment;
-import android.app.Activity;
-import android.app.*;
-import android.os.*;
-import android.content.*;
-import android.widget.*;
-import android.app.DatePickerDialog;
-import java.util.*;
-import android.view.*;
+import android.app.TimePickerDialog;
+import android.os.Bundle;
+import android.widget.TextView;
+import android.widget.TimePicker;
+
+import java.util.Calendar;
 
 
 public class NoticeDialogFragment extends DialogFragment implements TimePickerDialog.OnTimeSetListener{

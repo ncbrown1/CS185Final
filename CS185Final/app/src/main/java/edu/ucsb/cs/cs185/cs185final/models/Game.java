@@ -1,7 +1,6 @@
 package edu.ucsb.cs.cs185.cs185final.models;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Game {
     public String title;
