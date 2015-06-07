@@ -5,6 +5,7 @@ import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.Button;
@@ -120,19 +121,15 @@ public class MapsActivity extends FragmentActivity {
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng latLng) {
-                for (Marker marker : markers) {
-                    marker.setAlpha(0.2f);
-                }
-
-                gameDetails.setVisibility(View.GONE);
+                setSelectedTeam(null);
             }
         });
     }
 
-    private void setSelectedTeam(int team) {
+    private void setSelectedTeam(@Nullable Integer team) {
         LatLngBounds.Builder builder = new LatLngBounds.Builder();
         for (Marker marker : markers) {
-            if (map.get(marker.getId()) == team) {
+            if (map.get(marker.getId()).equals(team)) {
                 marker.setAlpha(1);
                 LatLng position = marker.getPosition();
                 builder.include(position);
@@ -140,13 +137,19 @@ public class MapsActivity extends FragmentActivity {
             else marker.setAlpha(0.2f);
         }
 
-        Game game = data.games.get(team - 1);
-        TextView name = (TextView) gameDetails.findViewById(R.id.game_name);
-        name.setText(game.title);
-        gameDetails.setVisibility(View.VISIBLE);
+        if (team != null) {
+            Game game = data.games.get(team - 1);
+            TextView name = (TextView) gameDetails.findViewById(R.id.game_name);
+            name.setText(game.title);
+            gameDetails.setVisibility(View.VISIBLE);
+        } else {
+            gameDetails.setVisibility(View.GONE);
+        }
 
-        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngBounds(builder.build(), 64);
-        mMap.animateCamera(cameraUpdate);
+        if (team != null) {
+            CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngBounds(builder.build(), 64);
+            mMap.animateCamera(cameraUpdate);
+        }
     }
 
     private void readPlayersInfo(){
