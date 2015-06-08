@@ -12,6 +12,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,6 +62,11 @@ public class MapsActivity extends FragmentActivity {
         gamesPager.setAdapter(new TeamsAdapter(getSupportFragmentManager(), data.games.toArray(new Game[data.games.size()])));
         gamesPager.addOnPageChangeListener(new PagerListener(this));
         setSelectedTeam(1);
+
+        // https://stackoverflow.com/questions/13914609/viewpager-with-previous-and-next-page-boundaries
+        int margin = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 28*2, getResources().getDisplayMetrics());
+        gamesPager.setPageMargin(-margin);
+        gamesPager.setOffscreenPageLimit(10);
     }
 
     @Override
