@@ -46,6 +46,7 @@ public class GameActivity extends FragmentActivity {
                 .setPositiveButton("KILL", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         vib.cancel();
+                        finish();
                         Intent videoGame = new Intent(getApplicationContext(), GameEnd.class);
                         startActivity(videoGame);
                     }

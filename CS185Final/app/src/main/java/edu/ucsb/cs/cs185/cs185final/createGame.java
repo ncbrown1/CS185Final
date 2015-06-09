@@ -60,7 +60,7 @@ public class createGame extends ActionBarActivity implements NoticeDialogFragmen
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.createGame) {
-
+            finish();
             Intent createGame = new Intent(getApplicationContext(), GameActivity.class);
             Game game = new Game();
             game.title = "new";
