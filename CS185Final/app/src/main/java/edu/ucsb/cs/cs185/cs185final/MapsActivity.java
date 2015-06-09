@@ -18,6 +18,7 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdate;
@@ -283,10 +284,19 @@ public class MapsActivity extends FragmentActivity {
         @Nullable
         @Override
         public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-            Game game = (Game) getArguments().getSerializable(ARGUMENT_GAME);
+            final Game game = (Game) getArguments().getSerializable(ARGUMENT_GAME);
             View view = inflater.inflate(R.layout.team_detail_page, container, false);
 
             TextView name = (TextView) view.findViewById(R.id.game_name);
+            Button joinGameButton = (Button) view.findViewById(R.id.joinGameButton2);
+            joinGameButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent gameActivity = new Intent(v.getContext(), GameActivity.class);
+                    gameActivity.putExtra("game", game);
+                    startActivity(gameActivity);
+                }
+            });
             name.setText(game.title);
             return view;
         }
