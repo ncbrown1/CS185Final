@@ -2,6 +2,7 @@ package edu.ucsb.cs.cs185.cs185final.models;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Game implements Serializable {
     public String title;
@@ -10,6 +11,7 @@ public class Game implements Serializable {
     public int num_lives;
     public double critical_distance;
     public boolean is_private;
+    public long end_time;
     public ArrayList<Player> players;
 
     public Game(Game game) {
@@ -19,6 +21,7 @@ public class Game implements Serializable {
         this.num_lives = game.num_lives;
         this.critical_distance = game.critical_distance;
         this.is_private = game.is_private;
+        this.end_time = game.end_time;
 
         this.players = new ArrayList<Player>();
         for (Player player : game.players) {
