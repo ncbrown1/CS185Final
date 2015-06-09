@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -19,6 +20,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.util.Calendar;
 import java.util.List;
 
 import edu.ucsb.cs.cs185.cs185final.models.Data;
@@ -28,12 +30,22 @@ import edu.ucsb.cs.cs185.cs185final.models.Game;
 public class ViewGames extends Activity {
 
     private Data data;
+    private RecyclerView rview;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_games);
+
+        rview = (RecyclerView)findViewById(R.id.game_list);
+        rview.setHasFixedSize(true);
+        LinearLayoutManager llm = new LinearLayoutManager(getApplicationContext());
+        rview.setLayoutManager(llm);
+
         readPlayersInfo();
+
+        GameRecyclerAdapter gra = new GameRecyclerAdapter(data.games);
+        rview.setAdapter(gra);
     }
 
     private void readPlayersInfo(){
@@ -88,28 +100,39 @@ public class ViewGames extends Activity {
             return new GameViewHolder(v);
         }
 
+        private String timeLeft(long time) {
+            Calendar now = Calendar.getInstance();
+            long nowmillis = now.getTimeInMillis();
+
+            long different = time - nowmillis;
+
+            long secondsInMilli = 1000;
+            long minutesInMilli = secondsInMilli * 60;
+            long hoursInMilli = minutesInMilli * 60;
+            long daysInMilli = hoursInMilli * 24;
+
+            long elapsedDays = different / daysInMilli;
+            different = different % daysInMilli;
+
+            long elapsedHours = different / hoursInMilli;
+            different = different % hoursInMilli;
+
+            long elapsedMinutes = different / minutesInMilli;
+            different = different % minutesInMilli;
+
+            long elapsedSeconds = different / secondsInMilli;
+
+            return elapsedHours + " Hours, " + elapsedMinutes + "Minutes";
+        }
+
         @Override
         public void onBindViewHolder(final GameViewHolder holder, int i) {
             Game game = games.get(i);
-////        holder.toolbar.setTitleTextAppearance(context,);
-//            holder.toolbar.setTitle(item.getTitle());
-//            holder.toolbar.setSubtitle(item.getDate());
-////        holder.toolbar.setSubtitle(item.getTitle());
-//            holder.toolbar.getMenu().clear();
-//            holder.toolbar.inflateMenu(newsOrEvents == 1 ? R.menu.menu_news : R.menu.menu_events);
-//            final String title = item.getTitle();
-//            final String weburl = item.getLink();
-//
-//            holder.description.setText(item.getDescription());
-//            holder.cv.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    if(newsOrEvents == 1)
-//                        startWebView(title,weburl);
-//                    else
-//                        holder.toolbar.showOverflowMenu();
-//                }
-//            });
+            holder.toolbar.setTitle(game.title);
+            holder.toolbar.setSubtitle(timeLeft(game.end_time) + " Remaining");
+            holder.num_players.setText(game.players.size() + " / " + game.max_participants);
+            holder.num_lives.setText(game.num_lives);
+            holder.max_score.setText(game.max_score);
         }
 
         @Override
@@ -120,13 +143,17 @@ public class ViewGames extends Activity {
         public class GameViewHolder extends RecyclerView.ViewHolder {
             CardView cv;
             Toolbar toolbar;
-            TextView description;
+            TextView num_players;
+            TextView num_lives;
+            TextView max_score;
 
             GameViewHolder(View itemView) {
                 super(itemView);
                 cv = (CardView)itemView.findViewById(R.id.cardview);
                 toolbar = (Toolbar) itemView.findViewById(R.id.title);
-                description = (TextView) itemView.findViewById(R.id.description);
+                num_players = (TextView) itemView.findViewById(R.id.num_players);
+                num_lives = (TextView) itemView.findViewById(R.id.num_lives);
+                max_score = (TextView) itemView.findViewById(R.id.max_score);
             }
         }
     }
