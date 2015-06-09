@@ -51,6 +51,10 @@
             android:name=".GameEnd"
             android:label="@string/title_activity_game_end" >
         </activity>
+        <activity
+            android:name=".ListGames"
+            android:label="@string/title_activity_list_games" >
+        </activity>
     </application>
 
 </manifest>
