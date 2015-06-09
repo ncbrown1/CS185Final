@@ -70,17 +70,27 @@ public class InitialScreen extends AppCompatActivity {
         Criteria criteria = new Criteria();
         String locationProvider = locationManager.getBestProvider(criteria, false);
         Location location = locationManager.getLastKnownLocation(locationProvider);
-        LatLng latlng;
+        final LatLng latlng;
         if(location != null){
             latlng = new LatLng(location.getLatitude(), location.getLongitude());
         }
         else latlng = new LatLng(0,0);
-        mMap.setMyLocationEnabled(true);
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latlng, 13));
+//        mMap.setMyLocationEnabled(true);
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng, 13));
         mMap.addMarker(new MarkerOptions()
                 .title("UCSB")
                 .snippet("The most populous city in USSR.")
                 .position(latlng));
+
+
+        Button newGame = (Button) findViewById(R.id.newGameButton);
+        newGame.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                LatLng target = new LatLng(latlng.latitude + 3, latlng.longitude + 3);
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(target, 16), 600000, null);
+            }
+        }, 3000);
     }
 }
 
