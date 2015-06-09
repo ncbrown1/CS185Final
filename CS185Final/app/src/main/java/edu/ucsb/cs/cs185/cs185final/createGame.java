@@ -2,43 +2,29 @@ package edu.ucsb.cs.cs185.cs185final;
 
 import android.app.DialogFragment;
 import android.content.Intent;
-import android.location.Criteria;
-import android.location.Location;
-import android.location.LocationManager;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
 
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
-
 
 public class createGame extends ActionBarActivity implements NoticeDialogFragment.NoticeDialogListener{
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
-    private Button createGameButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_game);
 
-        createGameButton = (Button) findViewById(R.id.createGameButton);
-        createGameButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent createGame = new Intent(getApplicationContext(), GameActivity.class);
-                startActivity(createGame);
-            }
-        });
+        EditText myEditText = (EditText) findViewById(R.id.max_participants);
+
+        myEditText.requestFocus();
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
 
         Button timePickerButton = (Button)findViewById(R.id.timePickerButton);
         timePickerButton.setOnClickListener(new View.OnClickListener() {
@@ -54,7 +40,6 @@ public class createGame extends ActionBarActivity implements NoticeDialogFragmen
                 }
             }
         });
-        setUpMapIfNeeded();
     }
 
     @Override
@@ -72,7 +57,9 @@ public class createGame extends ActionBarActivity implements NoticeDialogFragmen
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.createGame) {
+            Intent createGame = new Intent(getApplicationContext(), GameActivity.class);
+            startActivity(createGame);
             return true;
         }
 
@@ -89,43 +76,6 @@ public class createGame extends ActionBarActivity implements NoticeDialogFragmen
     public void onDialogNegativeClick(DialogFragment dialog) {
         // User touched the dialog's negative button
         dialog.dismiss();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        setUpMapIfNeeded();
-    }
-
-    void setUpMapIfNeeded() {
-        // Do a null check to confirm that we have not already instantiated the map.
-        if (mMap == null) {
-            // Try to obtain the map from the SupportMapFragment.
-            mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map))
-                    .getMap();
-            // Check if we were successful in obtaining the map.
-            if (mMap != null) {
-                setUpMap();
-            }
-        }
-    }
-
-    private void setUpMap() {
-        LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-        Criteria criteria = new Criteria();
-        String locationProvider = locationManager.getBestProvider(criteria, false);
-        Location location = locationManager.getLastKnownLocation(locationProvider);
-        LatLng latlng;
-        if(location != null){
-            latlng = new LatLng(location.getLatitude(), location.getLongitude());
-        }
-        else latlng = new LatLng(0,0);
-        mMap.setMyLocationEnabled(true);
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latlng, 13));
-        mMap.addMarker(new MarkerOptions()
-                .title("UCSB")
-                .snippet("The most populous city in USSR.")
-                .position(latlng));
     }
 }
 
