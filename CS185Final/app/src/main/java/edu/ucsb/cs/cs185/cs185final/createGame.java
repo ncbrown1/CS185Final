@@ -23,7 +23,7 @@ public class createGame extends ActionBarActivity implements NoticeDialogFragmen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_game);
 
-        EditText myEditText = (EditText) findViewById(R.id.max_participants);
+        EditText myEditText = (EditText) findViewById(R.id.gameTitle);
 
         myEditText.requestFocus();
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
