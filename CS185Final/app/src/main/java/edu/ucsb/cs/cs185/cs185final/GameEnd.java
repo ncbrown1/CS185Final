@@ -1,12 +1,8 @@
 package edu.ucsb.cs.cs185.cs185final;
 
 import android.app.Activity;
-import android.media.MediaPlayer;
-import android.media.session.MediaController;
 import android.net.Uri;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.VideoView;

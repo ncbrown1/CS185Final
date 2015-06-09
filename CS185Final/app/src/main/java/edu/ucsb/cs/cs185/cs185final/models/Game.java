@@ -1,9 +1,9 @@
 package edu.ucsb.cs.cs185.cs185final.models;
 
+import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
 
-public class Game {
+public class Game implements Serializable {
     public String title;
     public int max_participants;
     public int max_score;
