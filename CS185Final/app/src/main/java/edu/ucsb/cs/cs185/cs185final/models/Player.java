@@ -1,6 +1,8 @@
 package edu.ucsb.cs.cs185.cs185final.models;
 
-public class Player {
+import java.io.Serializable;
+
+public class Player implements Serializable {
     public int id;
     public String name;
     public double longitude;

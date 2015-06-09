@@ -39,8 +39,7 @@ public class InitialScreen extends AppCompatActivity {
         joinGame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent map = new Intent(getApplicationContext(), MapsActivity.class);
-                startActivity(map);
+                MapsActivity.showMap(view.getContext());
             }
         });
         setUpMapIfNeeded();
