@@ -1,5 +1,7 @@
 package edu.ucsb.cs.cs185.cs185final;
 
+import android.content.Context;
+import android.content.Intent;
 import android.content.res.AssetManager;
 import android.location.Criteria;
 import android.location.Location;
@@ -44,6 +46,7 @@ import edu.ucsb.cs.cs185.cs185final.models.Game;
 import edu.ucsb.cs.cs185.cs185final.models.Player;
 
 public class MapsActivity extends FragmentActivity {
+    private static final String EXTRA_INDEX = "extra_index";
 
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
     private ViewPager gamesPager;
@@ -51,6 +54,16 @@ public class MapsActivity extends FragmentActivity {
     private final ArrayList<Marker> markers = new ArrayList<>();
 
     private Data data;
+
+    public static void showMap(Context context) {
+        showMap(context, null);
+    }
+
+    public static void showMap(Context context, Integer index) {
+        Intent intent = new Intent(context, MapsActivity.class);
+        intent.putExtra(EXTRA_INDEX, index);
+        context.startActivity(intent);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +74,11 @@ public class MapsActivity extends FragmentActivity {
         gamesPager = (ViewPager) findViewById(R.id.teams_pager);
         gamesPager.setAdapter(new TeamsAdapter(getSupportFragmentManager(), data.games.toArray(new Game[data.games.size()])));
         gamesPager.addOnPageChangeListener(new PagerListener(this));
-        setSelectedTeam(1);
+
+        Intent intent = getIntent();
+        Integer index = (Integer) intent.getSerializableExtra(EXTRA_INDEX);
+        if (intent.hasExtra(EXTRA_INDEX) && index != null) setSelectedTeam(index);
+        else setSelectedTeam(1);
 
         // https://stackoverflow.com/questions/13914609/viewpager-with-previous-and-next-page-boundaries
         int margin = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 28*2, getResources().getDisplayMetrics());
