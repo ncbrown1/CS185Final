@@ -141,12 +141,9 @@ public class MapsActivity extends FragmentActivity {
     }
 
     public void setTransitiveSelection(int team, float offset) {
-        LatLngBounds.Builder builder = new LatLngBounds.Builder();
         for (Marker marker : markers) {
             if (map.get(marker.getId()).equals(team)) {
                 marker.setAlpha(1f - ((1f - 0.2f) * offset));
-                LatLng position = marker.getPosition();
-                builder.include(position);
             }
             else if (offset < 0 && map.get(marker.getId()).equals(team - 1)) {
                 marker.setAlpha(0.2f + ((1f - 0.2f) * offset));
@@ -158,19 +155,33 @@ public class MapsActivity extends FragmentActivity {
             }
         }
 
-        if (offset == 0.0f) {
-            setSelectedTeam(team);
-            LatLngBounds bounds = builder.build();
-            CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngBounds(bounds, 64);
-            try {mMap.animateCamera(cameraUpdate);}
-            catch (IllegalStateException ignored) {}
+        if (offset < 0.001f) {
+            focusOnTeam(team);
+        } else if (offset > 0.999f) {
+            focusOnTeam(team + 1);
         }
+    }
+
+    private void focusOnTeam(int team) {
+        LatLngBounds.Builder builder = new LatLngBounds.Builder();
+        for (Marker marker : markers) {
+            if (map.get(marker.getId()).equals(team)) {
+                LatLng position = marker.getPosition();
+                builder.include(position);
+            }
+        }
+
+        LatLngBounds bounds = builder.build();
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngBounds(bounds, 64);
+        try {mMap.animateCamera(cameraUpdate);}
+        catch (IllegalStateException ignored) {}
     }
 
     private void setSelectedTeam(@Nullable Integer team) {
         if (team != null) {
             gamesPager.setVisibility(View.VISIBLE);
-            gamesPager.setCurrentItem(team - 1);
+            gamesPager.setCurrentItem(team - 1, false);
+            setTransitiveSelection(team, 0);
         } else {
             gamesPager.setVisibility(View.GONE);
         }
