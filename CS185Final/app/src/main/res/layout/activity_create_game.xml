@@ -16,43 +16,81 @@
         android:layout_margin="16dp">
 
         <EditText
-            android:id="@+id/max_participants"
+            android:id="@+id/gameTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
-            android:digits="0,1,2,3,4,5,6,7,8,9"
-            android:hint="Max number of players:"
-            android:inputType="number"
+            android:hint="Game Title:"
             android:singleLine="true"
             android:imeOptions="actionNext"
-            />
+            android:layout_gravity="center_horizontal" />
 
-        <EditText
-            android:id="@+id/max_score"
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:digits="0,1,2,3,4,5,6,7,8,9"
-            android:hint="Max score:"
-            android:inputType="number"
-            android:singleLine="true"
-            android:imeOptions="actionNext"/>
+            android:layout_height="match_parent">
 
-        <EditText
-            android:id="@+id/num_lives"
+            <EditText
+                android:id="@+id/max_participants"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:digits="0,1,2,3,4,5,6,7,8,9"
+                android:hint="Max players:"
+                android:layout_gravity="center_horizontal|left"
+                android:inputType="number"
+                android:singleLine="true"
+                android:imeOptions="actionNext"
+                android:layout_weight="0.5"
+                />
+
+            <EditText
+                android:id="@+id/max_score"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_gravity="center_horizontal|right"
+                android:digits="0,1,2,3,4,5,6,7,8,9"
+                android:hint="Max score:"
+                android:inputType="number"
+                android:singleLine="true"
+                android:imeOptions="actionNext"
+                android:layout_weight="0.5"/>
+
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/max_score"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:digits="0,1,2,3,4,5,6,7,8,9"
-            android:hint="Number of lives:"
-            android:inputType="number" />
+            android:layout_height="match_parent">
 
-        <FrameLayout
+            <EditText
+                android:id="@+id/num_lives"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/max_score"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:digits="0,1,2,3,4,5,6,7,8,9"
+                android:hint="Lives:"
+                android:inputType="number"
+                android:layout_weight="0.5"/>
+
+            <CheckBox
+                android:id="@+id/is_private"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_gravity="center_vertical|right"
+                android:text="Private?"
+                android:layout_weight="0.5"/>
+
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
@@ -62,28 +100,20 @@
                 android:id="@+id/timePickerButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical|left"
-                android:padding="16dp"
-                android:text="Pick Game End Time" />
+                android:layout_gravity="center_vertical|start"
+                android:text="Pick End Time"
+                android:layout_marginRight="16dp"
+                android:layout_weight="0.5"/>
 
-            <CheckBox
-                android:id="@+id/is_private"
+            <TextView
+                android:id="@+id/textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical|right"
-                android:text="Private?" />
+                android:hint="Ending at"
+                android:layout_gravity="right|end"
+                android:padding="16dp"
+                android:layout_weight="0.5"/>
 
-        </FrameLayout>
-
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_gravity="center_horizontal"
-            android:padding="8dp" />
-
+        </LinearLayout>
     </LinearLayout>
-
 </FrameLayout>
