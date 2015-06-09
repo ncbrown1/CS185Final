@@ -1,6 +1,8 @@
 package edu.ucsb.cs.cs185.cs185final;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
@@ -44,8 +46,10 @@ public class ViewGames extends Activity {
 
         readPlayersInfo();
 
-        GameRecyclerAdapter gra = new GameRecyclerAdapter(data.games);
+        GameRecyclerAdapter gra = new GameRecyclerAdapter(data.games,this);
         rview.setAdapter(gra);
+
+        setVisibleElements();
     }
 
     private void readPlayersInfo(){
@@ -57,6 +61,20 @@ public class ViewGames extends Activity {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void setVisibleElements() {
+        if(data.games.size() > 0) {
+            findViewById(R.id.no_games).setVisibility(View.GONE);
+            findViewById(R.id.game_list).setVisibility(View.VISIBLE);
+        } else {
+            findViewById(R.id.no_games).setVisibility(View.VISIBLE);
+            findViewById(R.id.game_list).setVisibility(View.GONE);
+        }
+    }
+
+    public void createGame(View v) {
+        startActivity(new Intent(getApplicationContext(), createGame.class));
     }
 
     @Override
@@ -84,9 +102,11 @@ public class ViewGames extends Activity {
     private class GameRecyclerAdapter extends RecyclerView.Adapter<GameRecyclerAdapter.GameViewHolder> {
 
         private List<Game> games;
+        private Context context;
 
-        public GameRecyclerAdapter(List<Game> games) {
+        public GameRecyclerAdapter(List<Game> games, Context context) {
             this.games = games;
+            this.context = context;
         }
 
         @Override
@@ -122,17 +142,24 @@ public class ViewGames extends Activity {
 
             long elapsedSeconds = different / secondsInMilli;
 
-            return elapsedHours + " Hours, " + elapsedMinutes + "Minutes";
+            return elapsedHours + " Hours, " + elapsedMinutes + " Minutes";
         }
 
         @Override
-        public void onBindViewHolder(final GameViewHolder holder, int i) {
+        public void onBindViewHolder(final GameViewHolder holder, final int i) {
             Game game = games.get(i);
-            holder.toolbar.setTitle(game.title);
+            holder.toolbar.setTitle("" + game.title);
             holder.toolbar.setSubtitle(timeLeft(game.end_time) + " Remaining");
             holder.num_players.setText(game.players.size() + " / " + game.max_participants);
-            holder.num_lives.setText(game.num_lives);
-            holder.max_score.setText(game.max_score);
+            holder.num_lives.setText("" + game.num_lives);
+            holder.max_score.setText("" + game.max_score);
+
+            holder.cv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    MapsActivity.showMap(context,i+1);
+                }
+            });
         }
 
         @Override

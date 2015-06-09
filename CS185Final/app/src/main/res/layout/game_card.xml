@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -8,20 +9,23 @@
         android:id="@+id/cardview"
         android:layout_gravity="center"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_margin="3dp"
+        android:background="#333">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="#424242">
 
-            <android.widget.Toolbar
+            <android.support.v7.widget.Toolbar
                 android:id="@+id/title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentStart="true"
-                android:title="My Game Title"
-                android:subtitle="2 Hours 15 Minutes Remaining"
+                app:title="My Game Title"
+                app:subtitle="2 Hours 15 Minutes Remaining"
                 android:clickable="false"
                 android:duplicateParentState="true"/>
 
