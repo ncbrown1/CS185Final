@@ -13,6 +13,8 @@ import android.widget.EditText;
 
 import com.google.android.gms.maps.GoogleMap;
 
+import edu.ucsb.cs.cs185.cs185final.models.Game;
+
 public class createGame extends ActionBarActivity implements NoticeDialogFragment.NoticeDialogListener{
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
 
@@ -60,7 +62,11 @@ public class createGame extends ActionBarActivity implements NoticeDialogFragmen
         if (id == R.id.createGame) {
             finish();
             Intent createGame = new Intent(getApplicationContext(), GameActivity.class);
+            Game game = new Game();
+            game.title = "new";
+            createGame.putExtra("game",game);
             startActivity(createGame);
+
             return true;
         }
 
